@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# Explicitly set JAVA_HOME
+export JAVA_HOME=/opt/render/project/.java/current
+export PATH=$JAVA_HOME/bin:$PATH
+
 echo "Using Java from: $JAVA_HOME"
 java -version || { echo "Error: Java is not installed."; exit 1; }
 
@@ -15,6 +19,7 @@ mvn -version || { echo "Error: Maven is not installed."; exit 1; }
 
 echo "Building the project..."
 mvn clean install -DskipTests
+
 
 
 
