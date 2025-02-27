@@ -11,6 +11,9 @@ then
     tar -xzf openjdk.tar.gz -C java --strip-components=1
     export JAVA_HOME=$PWD/java
     export PATH=$JAVA_HOME/bin:$PATH
+    echo "export JAVA_HOME=$PWD/java" >> $HOME/.bashrc
+    echo "export PATH=$JAVA_HOME/bin:$PATH" >> $HOME/.bashrc
+    source $HOME/.bashrc
 else
     echo "Java is already installed."
 fi
@@ -25,6 +28,8 @@ if ! command -v mvn &> /dev/null
 then
     curl -fsSL https://archive.apache.org/dist/maven/maven-3/3.9.5/binaries/apache-maven-3.9.5-bin.tar.gz | tar -xz
     export PATH=$PWD/apache-maven-3.9.5/bin:$PATH
+    echo "export PATH=$PWD/apache-maven-3.9.5/bin:$PATH" >> $HOME/.bashrc
+    source $HOME/.bashrc
 fi
 
 echo "Maven version:"
@@ -33,7 +38,6 @@ mvn -version || { echo "Error: Maven installation failed."; exit 1; }
 # Build the project
 echo "Building the project..."
 mvn clean install -DskipTests
-
 
 
 
