@@ -1,16 +1,7 @@
 #!/bin/bash
 
-echo "Checking if Java is installed..."
-if ! command -v java &> /dev/null
-then
-    echo "Java is not installed. Installing OpenJDK 17..."
-    curl -fsSL https://api.adoptium.net/v3/binary/latest/17/ga/linux/x64/jdk/hotspot/normal/eclipse | tar -xz
-    export JAVA_HOME=$PWD/jdk-17+*
-    export PATH=$JAVA_HOME/bin:$PATH
-fi
-
-echo "Java version:"
-java -version || { echo "Failed to install Java"; exit 1; }
+echo "Using Java from: $JAVA_HOME"
+java -version || { echo "Java is not installed. Exiting..."; exit 1; }
 
 echo "Installing Maven..."
 if ! command -v mvn &> /dev/null
