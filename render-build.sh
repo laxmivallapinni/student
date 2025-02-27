@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "Using Java from: $JAVA_HOME"
-java -version || { echo "Java is not installed. Exiting..."; exit 1; }
+java -version || { echo "Error: Java is not installed."; exit 1; }
 
 echo "Installing Maven..."
 if ! command -v mvn &> /dev/null
@@ -11,7 +11,7 @@ then
 fi
 
 echo "Maven version:"
-mvn -version || { echo "Failed to install Maven"; exit 1; }
+mvn -version || { echo "Error: Maven is not installed."; exit 1; }
 
 echo "Building the project..."
 mvn clean install -DskipTests
