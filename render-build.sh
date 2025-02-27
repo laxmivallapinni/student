@@ -1,22 +1,31 @@
 #!/bin/bash
 
 echo "Checking if Java is installed..."
+
+# Check if Java is installed
 if ! command -v java &> /dev/null
 then
     echo "Java is not installed. Installing OpenJDK 17..."
+    
+    # Download OpenJDK 17
     curl -o openjdk.tar.gz https://download.java.net/openjdk/jdk17/ri/openjdk-17+35_linux-x64_bin.tar.gz
+    
+    # Create a directory for Java and extract files
     mkdir -p java
     tar -xzf openjdk.tar.gz -C java --strip-components=1
-    echo "export JAVA_HOME=$PWD/java" >> $HOME/.bashrc
-    echo "export PATH=$JAVA_HOME/bin:$PATH" >> $HOME/.bashrc
+    
+    # Set JAVA_HOME and update PATH
+    export JAVA_HOME=$PWD/java
+    export PATH=$JAVA_HOME/bin:$PATH
+    
+    echo "Java installation complete."
+else
+    echo "Java is already installed."
 fi
-
-# Load Java paths
-source $HOME/.bashrc
 
 # Verify Java installation
 echo "Java version:"
-java -version || { echo "Error: Java installation failed."; exit 1; }
+$JAVA_HOME/bin/java -version || { echo "Error: Java installation failed."; exit 1; }
 
 # Install Maven
 echo "Installing Maven..."
