@@ -1,12 +1,25 @@
 #!/bin/bash
 
-# Explicitly set JAVA_HOME
-export JAVA_HOME=/opt/render/project/.java/current
-export PATH=$JAVA_HOME/bin:$PATH
+echo "Checking if Java is installed..."
 
-echo "Using Java from: $JAVA_HOME"
-java -version || { echo "Error: Java is not installed."; exit 1; }
+# Check if Java is installed
+if ! command -v java &> /dev/null
+then
+    echo "Java is not installed. Installing OpenJDK 17..."
+    curl -o openjdk.tar.gz https://download.java.net/openjdk/jdk17/ri/openjdk-17+35_linux-x64_bin.tar.gz
+    mkdir -p java
+    tar -xzf openjdk.tar.gz -C java --strip-components=1
+    export JAVA_HOME=$PWD/java
+    export PATH=$JAVA_HOME/bin:$PATH
+else
+    echo "Java is already installed."
+fi
 
+# Verify Java installation
+echo "Java version:"
+java -version || { echo "Error: Java installation failed."; exit 1; }
+
+# Install Maven
 echo "Installing Maven..."
 if ! command -v mvn &> /dev/null
 then
@@ -15,10 +28,12 @@ then
 fi
 
 echo "Maven version:"
-mvn -version || { echo "Error: Maven is not installed."; exit 1; }
+mvn -version || { echo "Error: Maven installation failed."; exit 1; }
 
+# Build the project
 echo "Building the project..."
 mvn clean install -DskipTests
+
 
 
 
