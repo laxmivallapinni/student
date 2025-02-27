@@ -1,17 +1,16 @@
 #!/bin/bash
 
 echo "Checking if Java is installed..."
-export JAVA_HOME=/opt/render/project/.java/current
-export PATH=$JAVA_HOME/bin:$PATH
-
 if ! command -v java &> /dev/null
 then
-    echo "Error: Java is not installed or not found in PATH."
-    exit 1
+    echo "Java is not installed. Installing OpenJDK 17..."
+    curl -fsSL https://download.oracle.com/java/17/latest/jdk-17_linux-x64_bin.tar.gz | tar -xz
+    export JAVA_HOME=$PWD/jdk-17.0.*
+    export PATH=$JAVA_HOME/bin:$PATH
 fi
 
 echo "Java version:"
-java -version
+java -version || { echo "Failed to install Java"; exit 1; }
 
 echo "Installing Maven..."
 if ! command -v mvn &> /dev/null
@@ -21,7 +20,7 @@ then
 fi
 
 echo "Maven version:"
-mvn -version
+mvn -version || { echo "Failed to install Maven"; exit 1; }
 
 echo "Building the project..."
 mvn clean install -DskipTests
