@@ -1,11 +1,13 @@
 #!/bin/bash
 
 echo "Checking if Java is installed..."
+export JAVA_HOME=/opt/render/project/.java/current
+export PATH=$JAVA_HOME/bin:$PATH
+
 if ! command -v java &> /dev/null
 then
-    echo "Java is not available. Setting up JAVA_HOME..."
-    export JAVA_HOME=/opt/render/project/.java/current
-    export PATH=$JAVA_HOME/bin:$PATH
+    echo "Error: Java is not installed or not found in PATH."
+    exit 1
 fi
 
 echo "Java version:"
@@ -23,6 +25,7 @@ mvn -version
 
 echo "Building the project..."
 mvn clean install -DskipTests
+
 
 
 
