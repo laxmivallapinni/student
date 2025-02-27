@@ -4,8 +4,8 @@ echo "Checking if Java is installed..."
 if ! command -v java &> /dev/null
 then
     echo "Java is not installed. Installing OpenJDK 17..."
-    curl -fsSL https://download.oracle.com/java/17/latest/jdk-17_linux-x64_bin.tar.gz | tar -xz
-    export JAVA_HOME=$PWD/jdk-17.0.*
+    curl -fsSL https://api.adoptium.net/v3/binary/latest/17/ga/linux/x64/jdk/hotspot/normal/eclipse | tar -xz
+    export JAVA_HOME=$PWD/jdk-17+*
     export PATH=$JAVA_HOME/bin:$PATH
 fi
 
