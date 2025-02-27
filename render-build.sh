@@ -3,9 +3,8 @@
 echo "Checking if Java is installed..."
 if ! command -v java &> /dev/null
 then
-    echo "Java is not installed. Installing OpenJDK 17..."
-    sudo apt update && sudo apt install -y openjdk-17-jdk
-    export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+    echo "Java is not available. Setting up JAVA_HOME..."
+    export JAVA_HOME=/opt/render/project/.java/current
     export PATH=$JAVA_HOME/bin:$PATH
 fi
 
@@ -24,6 +23,8 @@ mvn -version
 
 echo "Building the project..."
 mvn clean install -DskipTests
+
+
 
 
 
